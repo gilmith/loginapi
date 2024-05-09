@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.jacobo.adyd.login.event.model.RegisterEvent;
 import com.jacobo.adyd.login.model.UserRecord;
 import com.jacobo.adyd.login.model.UserTable;
 import com.jacobo.adyd.login.repository.UserTableRepository;
