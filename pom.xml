@@ -10,8 +10,8 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.jacobo.adyd</groupId>
-	<artifactId>login</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>loginapi</artifactId>
+	<version>0.0.2</version>
 	<name>prueba1</name>
 	<description>login api</description>
 	<properties>
@@ -19,6 +19,11 @@
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -85,7 +90,11 @@
 			<scope>provided</scope>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.7.3</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

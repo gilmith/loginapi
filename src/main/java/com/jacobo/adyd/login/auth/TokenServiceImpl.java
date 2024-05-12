@@ -1,4 +1,4 @@
-package com.jacobo.adyd.auth;
+package com.jacobo.adyd.login.auth;
 
 import java.time.Duration;
 import java.time.Instant;

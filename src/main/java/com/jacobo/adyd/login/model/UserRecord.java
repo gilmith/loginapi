@@ -1,8 +1,8 @@
 package com.jacobo.adyd.login.model;
 
-import com.jacobo.adyd.validators.EmailValidator;
-import com.jacobo.adyd.validators.NullValidator;
-import com.jacobo.adyd.validators.PatternValidator;
+import com.jacobo.adyd.login.validators.EmailValidator;
+import com.jacobo.adyd.login.validators.NullValidator;
+import com.jacobo.adyd.login.validators.PatternValidator;
 
 import jakarta.validation.GroupSequence;
 import jakarta.validation.constraints.Email;

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Strings;
-import com.jacobo.adyd.auth.TokenService;
+import com.jacobo.adyd.login.auth.TokenService;
 import com.jacobo.adyd.login.model.Authorize;
 import com.jacobo.adyd.login.model.UserRecord;
 import com.jacobo.adyd.login.service.LoginService;
