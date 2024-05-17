@@ -30,4 +30,6 @@ public interface Login {
 	
 	@GetMapping(path="login/confirm/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserRecord> confirmMail(@PathVariable String token);
+	
+	
 }

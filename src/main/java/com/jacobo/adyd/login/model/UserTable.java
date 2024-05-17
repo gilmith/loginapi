@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="Users")
+@Table(name="Users", schema = "ADYD_TABLAS")
 public class UserTable {
 	
 	@Id
