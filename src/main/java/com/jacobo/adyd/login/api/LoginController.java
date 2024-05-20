@@ -39,6 +39,7 @@ public class LoginController implements Login {
 
 	@Override
 	public ResponseEntity create(UserRecord usuario) {
+		log.info("creacion el usuario con mail {}, ", usuario.usuario());
 		loginService.createuser(usuario);
 		return ResponseEntity.accepted().build();
 	}

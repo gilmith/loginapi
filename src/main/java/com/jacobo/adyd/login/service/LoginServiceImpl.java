@@ -15,9 +15,11 @@ import com.jacobo.adyd.login.repository.UserTableRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LoginServiceImpl implements LoginService {
 	
 	private final UserTableRepository repo;
@@ -39,7 +41,9 @@ public class LoginServiceImpl implements LoginService {
 				.expriyDate(new Date().getTime() + TimeUnit.MINUTES.toMillis(10))
 				.token(UUID.randomUUID().toString())
 				.build();
-		repo.save(user);		
+		if(repo.save(user) == null) {
+			log.error("error al crear el usuario ha salido null");
+		}
 	}
 
 	@Override
