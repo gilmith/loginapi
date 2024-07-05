@@ -11,8 +11,8 @@
 	</parent>
 	<groupId>com.jacobo.adyd</groupId>
 	<artifactId>loginapi</artifactId>
-	<version>0.0.4</version>
-	<name>prueba1</name>
+	<version>0.0.5</version>
+	<name>loginApi</name>
 	<description>login api</description>
 	<properties>
 		<java.version>21</java.version>
