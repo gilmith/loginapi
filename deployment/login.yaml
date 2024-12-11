@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loginadyd
+  namespace: adyd
+  labels:
+    environment: desarrollo
+    app: loginadyd
+spec:  
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: loginadyd
+  template:
+    metadata:
+      labels:
+        app: loginadyd
+    spec:
+      containers:
+      - name: loginadyd
+        image: gilmith/loginadyd:0.0.19
+        ports:
+        - containerPort: 10002
+        env:
+        - name: URLCONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: cmconfigserver
+              key: URLCONFIG

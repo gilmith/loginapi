@@ -1,8 +1,10 @@
 package com.jacobo.adyd.login.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Strings;
@@ -11,6 +13,7 @@ import com.jacobo.adyd.login.model.Authorize;
 import com.jacobo.adyd.login.model.UserRecord;
 import com.jacobo.adyd.login.service.LoginService;
 
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,6 +63,7 @@ public class LoginController implements Login {
 		return null;
 	}
 	
+
 	
 	
 

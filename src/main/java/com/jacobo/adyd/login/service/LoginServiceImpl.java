@@ -4,15 +4,21 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jacobo.adyd.login.exceptions.LoginException;
+import com.jacobo.adyd.login.mail.MailInterface;
+import com.jacobo.adyd.login.model.MailInput;
 import com.jacobo.adyd.login.model.UserRecord;
 import com.jacobo.adyd.login.model.UserTable;
 import com.jacobo.adyd.login.repository.UserTableRepository;
 
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginServiceImpl implements LoginService {
 	
 	private final UserTableRepository repo;
+	private final MailInterface mail;
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
@@ -33,6 +40,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
+    @CircuitBreaker(name = "dbService", fallbackMethod = "fallbackMethod")
 	public void createuser(UserRecord usuario) {
 		val user = UserTable.builder()
 				.user(usuario.usuario())
@@ -41,11 +49,24 @@ public class LoginServiceImpl implements LoginService {
 				.expriyDate(new Date().getTime() + TimeUnit.MINUTES.toMillis(10))
 				.token(UUID.randomUUID().toString())
 				.build();
-		if(repo.save(user) == null) {
-			log.error("error al crear el usuario ha salido null");
-		}
+			repo.findById(usuario.usuario()).ifPresent((it) -> {
+				throw new LoginException("usuario ya creado", HttpStatus.BAD_REQUEST);
+			});				
+
+			repo.save(user);
+			mail.createUser(MailInput.builder().para(user.getUser()).token(user.getToken()).build());
+
 	}
 
+    public void fallbackMethod(UserRecord usuario, Throwable t) throws Throwable {
+    	if(t instanceof LoginException) {
+    		log.info("ha pillado la exception abre el circuito pero no lanza nada especial ");
+    	}
+    		log.info("Datos predeterminados debido a un fallo en la base de datos " + t.getMessage());        
+    		throw t;    	        
+    }
+    
+    
 	@Override
 	public String checkMail(String mail) {
 		return repo.findById(mail).map(it -> {
