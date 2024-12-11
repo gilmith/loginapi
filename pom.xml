@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.jacobo.adyd</groupId>
 	<artifactId>loginapi</artifactId>
-	<version>0.0.15</version>
+	<version>0.0.19</version>
 	<name>loginadyd</name>
 	<description>login api</description>
 	<properties>
