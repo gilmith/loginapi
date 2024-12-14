@@ -5,12 +5,14 @@ import java.time.Instant;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 @Service
+@RefreshScope
 public class TokenServiceImpl implements TokenService{
 	
 	private Algorithm encodingAlgorithm;
