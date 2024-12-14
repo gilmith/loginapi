@@ -16,7 +16,6 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
-@RefreshScope
 public class CircuitBreakerCustom {
 	
 	@Value("${resilience4j.circuitbreaker.instances.dbService.failure-rate-threshold}")

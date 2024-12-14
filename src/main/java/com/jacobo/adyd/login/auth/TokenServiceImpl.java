@@ -12,7 +12,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 @Service
-@RefreshScope
 public class TokenServiceImpl implements TokenService{
 	
 	private Algorithm encodingAlgorithm;

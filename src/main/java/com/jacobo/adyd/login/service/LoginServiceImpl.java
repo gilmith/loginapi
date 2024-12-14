@@ -53,7 +53,6 @@ public class LoginServiceImpl implements LoginService {
 			repo.findById(usuario.usuario()).ifPresent((it) -> {
 				throw new LoginException("usuario ya creado", HttpStatus.BAD_REQUEST);
 			});				
-
 			repo.save(user);
 			mail.createUser(MailInput.builder().para(user.getUser()).token(user.getToken()).build());
 

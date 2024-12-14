@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @Slf4j
-@RefreshScope
 public class FeignConfig {
 
 	@Value("${trust.store:keystore/springboot.p12}")
