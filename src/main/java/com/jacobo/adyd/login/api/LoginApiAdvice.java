@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.jacobo.adyd.login.exceptions.LoginException;
+import com.jacobo.adyd.login.model.Confirm;
 import com.jacobo.adyd.login.model.ErrorModel;
 
 import feign.RetryableException;
@@ -29,9 +30,9 @@ public class LoginApiAdvice {
     }
     
     @ExceptionHandler(LoginException.class)
-    public ResponseEntity<String> handleLoginException(LoginException loginex){
+    public ResponseEntity<Confirm> handleLoginException(LoginException loginex){
     	log.error("Error de logado {}", loginex.getMessage());
-    	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loginex.getMessage());
+    	return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(loginex.getConfirm());
     }
 
 }

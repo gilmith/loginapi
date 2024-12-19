@@ -13,26 +13,29 @@ import com.jacobo.adyd.login.exceptions.LoginException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import lombok.val;
+
+
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 public class CircuitBreakerCustom {
 	
-	@Value("${resilience4j.circuitbreaker.instances.dbService.failure-rate-threshold}")
+	@Value("${resilience4j.circuitbreaker.instances.dbService.failure-rate-thresholds}")
     private int failureRateThreshold;
 
-    @Value("${resilience4j.circuitbreaker.instances.dbService.wait-duration-in-open-state}")
+    @Value("${resilience4j.circuitbreaker.instances.dbService.wait-duration-in-open-states}")
     private long waitDurationInOpenState;
 
-    @Value("${resilience4j.circuitbreaker.instances.dbService.sliding-window-size}")
+    @Value("${resilience4j.circuitbreaker.instances.dbService.sliding-window-sizes}")
     private int slidingWindowSize;
 
-    @Value("${resilience4j.circuitbreaker.instances.dbService.minimum-number-of-calls}")
+    @Value("${resilience4j.circuitbreaker.instances.dbService.minimum-number-of-callss}")
     private int minimumNumberOfCalls;
 
     @Bean
     public CircuitBreaker dbServiceCircuitBreaker() {
-        CircuitBreakerConfig config = CircuitBreakerConfig.custom()
+        val config = CircuitBreakerConfig.custom()
                 .failureRateThreshold(failureRateThreshold)
                 .waitDurationInOpenState(Duration.ofMillis(waitDurationInOpenState))
                 .slidingWindowSize(slidingWindowSize)

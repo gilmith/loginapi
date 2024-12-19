@@ -51,14 +51,14 @@ public class LoginServiceImpl implements LoginService {
 				.token(UUID.randomUUID().toString())
 				.build();
 			repo.findById(usuario.usuario()).ifPresent((it) -> {
-				throw new LoginException("usuario ya creado", HttpStatus.BAD_REQUEST);
-			});				
+				throw new LoginException("usuario ya creado", HttpStatus.ALREADY_REPORTED);
+			});		
 			repo.save(user);
 			mail.createUser(MailInput.builder().para(user.getUser()).token(user.getToken()).build());
 
 	}
 
-    public void fallbackMethod(UserRecord usuario, Throwable t) throws Throwable {
+    public void fallbackMethod(UserRecord usuario, Exception t) throws Throwable {
     	if(t instanceof LoginException) {
     		log.info("ha pillado la exception abre el circuito pero no lanza nada especial ");
     	}
