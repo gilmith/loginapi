@@ -1,5 +1,6 @@
 package com.jacobo.adyd.login.api;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ public interface Login {
 	
 	
 	@GetMapping(path="login/confirm/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserRecord> confirmMail(@PathVariable String token);
+	public ResponseEntity<HttpStatus> confirmMail(@PathVariable String token);
 	
 	
 }

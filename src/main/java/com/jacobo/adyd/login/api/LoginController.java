@@ -1,6 +1,7 @@
 package com.jacobo.adyd.login.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -56,10 +57,12 @@ public class LoginController implements Login {
 	}
 
 	@Override
-	public ResponseEntity<UserRecord> confirmMail(String token) {
+	public ResponseEntity<HttpStatus> confirmMail(String token) {
 		log.info("esta confirmandose el token {}", token);		
-		loginService.checkToken(token);
-		return null;
+		if(loginService.checkToken(token)) {
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	}
 	
 
