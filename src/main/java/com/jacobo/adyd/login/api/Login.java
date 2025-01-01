@@ -31,5 +31,8 @@ public interface Login {
 	@GetMapping(path="login/confirm/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HttpStatus> confirmMail(@PathVariable String token);
 	
+	@PostMapping(path="login/reset", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<HttpStatus> resetMail(@RequestParam String email);
+	
 	
 }

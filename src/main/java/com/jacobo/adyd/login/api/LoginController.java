@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*") // Permite solo desde "http://example.com"
+@CrossOrigin(origins = "*") 
 public class LoginController implements Login {
 
 	@Autowired
@@ -60,6 +60,17 @@ public class LoginController implements Login {
 	public ResponseEntity<HttpStatus> confirmMail(String token) {
 		log.info("esta confirmandose el token {}", token);		
 		if(loginService.checkToken(token)) {
+			log.info("token confirmado");
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	}
+
+	@Override
+	public ResponseEntity<HttpStatus> resetMail(String email) {
+		log.info("Solicitud de reset para el usuario {} ", email);
+		if(loginService.reset1(email)) {
+			log.info("reset confirmado");
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
