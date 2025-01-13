@@ -19,5 +19,15 @@ public interface UserTableRepository extends JpaRepository<UserTable, String> {
 	@Modifying
 	@Query("update UserTable u set u.enabled=true, u.token=null where u.user = :usuario")
 	public void enable(String usuario);
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	@Modifying
+	@Query("update UserTable u set u.enabled=false, u.token=null where u.user = :usuario")
+	public void disable(String email);
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	@Modifying
+	@Query("update UserTable u set u.enabled=false, u.token=:token where u.user = :email")
+	public void disableAndToken(String email, String token);
 	
 }

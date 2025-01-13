@@ -1,5 +1,7 @@
 package com.jacobo.adyd.login.service;
 
+import java.util.Optional;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,5 +17,7 @@ public interface LoginService {
 	public String checkMail(String mail);
 
 	public Boolean checkToken(String token);
+
+	public boolean reset1(String email);
 
 }

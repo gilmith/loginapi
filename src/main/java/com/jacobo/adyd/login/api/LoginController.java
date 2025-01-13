@@ -1,6 +1,7 @@
 package com.jacobo.adyd.login.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*") // Permite solo desde "http://example.com"
+@CrossOrigin(origins = "*") 
 public class LoginController implements Login {
 
 	@Autowired
@@ -56,10 +57,23 @@ public class LoginController implements Login {
 	}
 
 	@Override
-	public ResponseEntity<UserRecord> confirmMail(String token) {
+	public ResponseEntity<HttpStatus> confirmMail(String token) {
 		log.info("esta confirmandose el token {}", token);		
-		loginService.checkToken(token);
-		return null;
+		if(loginService.checkToken(token)) {
+			log.info("token confirmado");
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	}
+
+	@Override
+	public ResponseEntity<HttpStatus> resetMail(String email) {
+		log.info("Solicitud de reset para el usuario {} ", email);
+		if(loginService.reset1(email)) {
+			log.info("reset confirmado");
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	}
 	
 

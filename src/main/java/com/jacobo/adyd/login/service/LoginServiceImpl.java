@@ -3,12 +3,14 @@ package com.jacobo.adyd.login.service;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Optional;
 import com.jacobo.adyd.login.exceptions.LoginException;
 import com.jacobo.adyd.login.mail.MailInterface;
 import com.jacobo.adyd.login.model.MailInput;
@@ -77,13 +79,30 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public Boolean checkToken(String token) {
 		val resultado = repo.findByToken(token);
-		if(resultado.isEmpty()) return false;
+		val atomicBoolean = new AtomicBoolean(false);
+		if(resultado.isEmpty()) {
+			log.error("Error no se encuentra el token {}", token);
+			return atomicBoolean.get();
+		}
 		resultado.stream().filter(it -> it.getToken().equals(token)).findFirst().map(entrada -> {
 			val date = new Date().getTime();
-			if(date > entrada.getExpriyDate()) return false; 
+			if(date > entrada.getExpriyDate()) {
+				log.error("token {} caducado {}", token, date);
+				return atomicBoolean.get(); 
+			}
+			log.info("habilita el usuario {}", entrada.getUser());
 			repo.enable(entrada.getUser());
-			return true;			
+			atomicBoolean.set(true);
+			return atomicBoolean.get();			
 		});
+		return atomicBoolean.get();
+	}
+
+	@Override
+	public boolean reset1(String email) {
+		val token = UUID.randomUUID().toString();
+		repo.disableAndToken(email, token);
+		mail.createUser(MailInput.builder().para(email).token(token).build());	
 		return false;
 	}
 
